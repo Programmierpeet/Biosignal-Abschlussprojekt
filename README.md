@@ -8,4 +8,19 @@ Es wurden insgesamt 15 Datensätze aufgenommen, 5 Pro Person:
     - 1x 15 Liegestützen mit größerer ROM
 
 Ihre Namen Werden unterteilt in:
-    
+    Noah 1,2,3:
+        1 = 45°
+        2 = Dia
+        3 = Breit
+    Peter 1,2,3:
+        1 = Breit
+        2 = Dia
+        3 = 45°
+    Jonny 1,2,3:
+        1 = Dia
+        2 = Breit
+        3 = 45°
+
+    Experimente 4 & 5:
+        3 = Normale ROM
+        4 = Erweiterte ROM
