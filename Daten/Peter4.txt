@@ -1,4 +1,3 @@
-?I2C Verbindung gefunden!.
 1428	1547	4
 1466	1537	9
 1515	1525	13
