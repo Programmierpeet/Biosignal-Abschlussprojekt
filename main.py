@@ -8,42 +8,6 @@ import scipy.signal as sps
 import scipy as scipy
 import os
 
-# #envelope of data.
-# envelope_brust1 = pfn.data_to_envelope(Brust1)
-# envelope_trizeps1 = pfn.data_to_envelope(Trizeps1)
-
-# #filtered data
-# filtered_brust1 = pfn.data_to_filtered(Brust1)
-# filtered_trizeps1 = pfn.data_to_filtered(Trizeps1)
-
-# #rectified data
-# rec_brust1 = pfn.data_to_rectified(Brust1)
-# rec_trizeps1 = pfn.data_to_rectified(Trizeps1)
-
-# plt.figure()
-# plt.plot(Millis1, Brust1)
-# plt.plot(Millis1, Trizeps1)
-# plt.title('45° Jonny')
-# plt.savefig('Jonnyraw.png')
-# plt.show()
-
-# plt.figure()
-# plt.plot(Millis1, filtered_brust1)
-# plt.plot(Millis1, filtered_trizeps1)
-# plt.title('45° Jonny')
-# plt.savefig('Jonnyfiltered.png')
-# plt.show()
-
-# plt.figure()
-# plt.plot(Millis1, envelope_brust1)
-# plt.plot(Millis1, envelope_trizeps1)
-# plt.title('45° Jonny')
-# plt.savefig('Jonnyenve.png')
-# plt.show()
-
-# plt.figure()
-# plt.plot(Millis1, rec_brust1)
-# plt.plot(P
 '''
     Noah 1,2,3:
         0 = Normal
@@ -99,38 +63,66 @@ Jnormalt_s = [375,  900, 1462]
 Jnormalt_e = [ 809, 1437, 2127]
 
 #For integration envelope is needed
-# #Spannung über die Zeit = Vs = Weber?
+# #Spannung über die Zeit = Vs = Weber? -> mV, only addition done
 
 relation_narrowJ, relation_wideJ, relation_normalJ = pfn.find_relation(Jonnyb, Jonnyt, Jnarrowt_s, Jnarrowt_e, Jwidet_s, Jwidet_e, Jnormalt_s, Jnormalt_e)
 relation_normalN, relation_narrowN, relation_wideN = pfn.find_relation(Noahb, Noaht, Nnormalt_s, Nnormalt_e, Nnarrowt_s, Nnarrowt_e, Nwidet_s, Nwidet_e)
 relation_wideP, relation_narrowP, relation_normalP = pfn.find_relation(Peterb, Petert, Pwidet_s, Pwidet_e, Pnarrowt_s, Pnarrowt_e, Pnormalt_s, Pnormalt_e)
 
-print('1) normal, 2) narrow, 3) wide')
-print('Herr roth')
-print(np.mean(relation_normalJ))
-print(np.mean(relation_narrowJ))
-print(np.mean(relation_wideJ))
+# print('1) normal, 2) narrow, 3) wide')
+# print('Herr roth')
+# print(np.mean(relation_normalJ))
+# print(np.mean(relation_narrowJ))
+# print(np.mean(relation_wideJ))
 
-print('herr rettenbacher')
-print(np.mean(relation_normalN))
-print(np.mean(relation_narrowN))
-print(np.mean(relation_wideN))
+# print('herr rettenbacher')
+# print(np.mean(relation_normalN))
+# print(np.mean(relation_narrowN))
+# print(np.mean(relation_wideN))
 
-print('herr thurner')
-print(np.mean(relation_normalP))
-print(np.mean(relation_narrowP))
-print(np.mean(relation_wideP))
+# print('herr thurner')
+# print(np.mean(relation_normalP))
+# print(np.mean(relation_narrowP))
+# print(np.mean(relation_wideP))
 
 #Comparison of whole Triceps and Chest Work in Experiment 4 and 5
-relation3N, relation4N = pfn.relation3and4(Noahb, Noaht)
-relation3P, relation4P = pfn.relation3and4(Peterb, Petert)
-relation3J, relation4J = pfn.relation3and4(Jonnyb, Jonnyt)
-print(relation3N, relation3P, relation3J)
-print(relation4N, relation4P, relation4J)
+relation3N, relation4N= pfn.relation3and4(Noahb, Noaht)
+# relation3P, relation4P = pfn.relation3and4(Peterb, Petert)
+# relation3J, relation4J = pfn.relation3and4(Jonnyb, Jonnyt)
+# print('Noah: ',relation3N,'Peter: ', relation3P,'Jonny: ',  relation3J)
+# print('Noah ROM: ',relation4N, 'Peter ROM: ',relation4P, 'Jonny ROM: ', relation4J)
 
-plt.figure()
-plt.plot(Jonnym[1], Jonnyb[1])
-plt.plot(Jonnym[1], Jonnyt[1])
-plt.title('45° Jonny')
-plt.savefig('Grafiken/Jonnyrawr.png')
-plt.show()
+#Um Amplituden zu vergleichen, sollen Zeitbereiche ignoriert werden, indem der Durchschnitt aus den Werten berechnet wird
+amp_chest_Noah, amp_triceps_Noah = pfn.get_mean_ampliude(Noahb, Noaht)
+amp_chest_Jonny, amp_triceps_Jonny = pfn.get_mean_ampliude(Jonnyb, Jonnyt)
+amp_chest_Peter, amp_triceps_Peter = pfn.get_mean_ampliude(Peterb, Petert)
+
+# print(amp_chest_Noah, amp_triceps_Noah)
+# print(amp_chest_Jonny, amp_triceps_Jonny)
+# print(amp_chest_Peter, amp_triceps_Peter)
+
+# pfn.barplot(amp_chest_Noah, amp_triceps_Noah, 'Noah_comparison', 'Normal', 'Narrow', 'Wide')
+# pfn.barplot(amp_chest_Jonny, amp_triceps_Jonny, 'Jonny_comparison', 'Narrow', 'Wide', 'Normal')
+# pfn.barplot(amp_chest_Peter, amp_triceps_Peter, 'Peter_comparison', 'Wide', 'Narrow', 'Normal')
+
+#Cross correlation after adding bandpass to raw data and deleting offset
+#pfn.cross_correlation(Noahb[1], Noaht[1], Noahm[1], 'Noah_cross_correlation')
+
+# pfn.fft_plot(Noahb[0], Noaht[0], 'Noah_fft_plot_normal')
+# pfn.fft_plot(Noahb[1], Noaht[1], 'Noah_fft_plot_narrow')
+# pfn.fft_plot(Noahb[2], Noaht[2], 'Noah_fft_plot_wide')
+# pfn.fft_plot(Noahb[3], Noaht[3], 'Noah_fft_plot_normalrom')
+# pfn.fft_plot(Noahb[4], Noaht[4], 'Noah_fft_plot_widerom')
+
+#plot change of median frequency over time
+chest_med_freq_normalrom, triceps_med_freq_normalrom = pfn.fatigue_data_median_freq(Peterb[3], Petert[3])
+chest_med_freq_rom, triceps_med_freq_rom = pfn.fatigue_data_median_freq(Peterb[4], Petert[4])
+print('chest_freq: ', chest_med_freq_normalrom)
+print('triceps_freq: ', triceps_med_freq_normalrom)
+
+
+pfn.plot_fatigue(triceps_med_freq_normalrom, 'Peter_triceps_fatigue')
+pfn.plot_fatigue(triceps_med_freq_rom, 'Peter_triceps_fatigue_rom')
+
+pfn.plot_fatigue(chest_med_freq_normalrom, 'Peter_chest_fatigue')
+pfn.plot_fatigue(chest_med_freq_rom, 'Peter_chest_fatigue_rom')
