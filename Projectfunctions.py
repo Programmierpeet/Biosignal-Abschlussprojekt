@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import Lab3Functions as l3f
 import seaborn as sns
+import Projectfunctions as pfn
 
 def txt_to_df(txt):
     df =  pd.read_csv("./Daten/"+txt, sep = '\t', names = ['brust', 'trizeps', 'millis'])
@@ -249,3 +250,18 @@ def plot_fatigue(freq_median_triceps, Name):
     plt.savefig('Grafiken/'+ Name + '.eps')
     plt.show()
 
+def plot_comparison(chest, triceps, time, name):
+    for i in range(5):
+        Chest= pfn.data_to_envelope(chest[i])
+        Triceps= pfn.data_to_envelope(triceps[i])
+
+
+        plt.figure()
+        plt.plot(time[i]/1000, Chest, color = '#21B2DE', label='Chest')
+        plt.plot(time[i]/1000, Triceps, color = '#DE4D21', label= 'Triceps')
+        plt.xlabel('Time / s')
+        plt.ylabel('Amplitude / µV')
+        plt.legend(loc= 'upper right')
+        plt.savefig('Grafiken/'+ name + '.eps')
+
+        plt.show()
