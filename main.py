@@ -86,16 +86,16 @@ relation_wideP, relation_narrowP, relation_normalP = pfn.find_relation(Peterb, P
 # print(np.mean(relation_wideP))
 
 #Comparison of whole Triceps and Chest Work in Experiment 4 and 5
-relation3N, relation4N= pfn.relation3and4(Noahb, Noaht)
+# relation3N, relation4N= pfn.relation3and4(Noahb, Noaht)
 # relation3P, relation4P = pfn.relation3and4(Peterb, Petert)
 # relation3J, relation4J = pfn.relation3and4(Jonnyb, Jonnyt)
 # print('Noah: ',relation3N,'Peter: ', relation3P,'Jonny: ',  relation3J)
 # print('Noah ROM: ',relation4N, 'Peter ROM: ',relation4P, 'Jonny ROM: ', relation4J)
 
 #Um Amplituden zu vergleichen, sollen Zeitbereiche ignoriert werden, indem der Durchschnitt aus den Werten berechnet wird
-amp_chest_Noah, amp_triceps_Noah = pfn.get_mean_ampliude(Noahb, Noaht)
-amp_chest_Jonny, amp_triceps_Jonny = pfn.get_mean_ampliude(Jonnyb, Jonnyt)
-amp_chest_Peter, amp_triceps_Peter = pfn.get_mean_ampliude(Peterb, Petert)
+# amp_chest_Noah, amp_triceps_Noah = pfn.get_mean_ampliude(Noahb, Noaht)
+# amp_chest_Jonny, amp_triceps_Jonny = pfn.get_mean_ampliude(Jonnyb, Jonnyt)
+# amp_chest_Peter, amp_triceps_Peter = pfn.get_mean_ampliude(Peterb, Petert)
 
 # print(amp_chest_Noah, amp_triceps_Noah)
 # print(amp_chest_Jonny, amp_triceps_Jonny)
@@ -115,14 +115,30 @@ amp_chest_Peter, amp_triceps_Peter = pfn.get_mean_ampliude(Peterb, Petert)
 # pfn.fft_plot(Noahb[4], Noaht[4], 'Noah_fft_plot_widerom')
 
 #plot change of median frequency over time
-chest_med_freq_normalrom, triceps_med_freq_normalrom = pfn.fatigue_data_median_freq(Peterb[3], Petert[3])
-chest_med_freq_rom, triceps_med_freq_rom = pfn.fatigue_data_median_freq(Peterb[4], Petert[4])
-print('chest_freq: ', chest_med_freq_normalrom)
-print('triceps_freq: ', triceps_med_freq_normalrom)
+# chest_med_freq_normalrom, triceps_med_freq_normalrom = pfn.fatigue_data_median_freq(Peterb[3], Petert[3])
+# chest_med_freq_rom, triceps_med_freq_rom = pfn.fatigue_data_median_freq(Peterb[4], Petert[4])
+# print('chest_freq: ', chest_med_freq_normalrom)
+# print('triceps_freq: ', triceps_med_freq_normalrom)
 
 
-pfn.plot_fatigue(triceps_med_freq_normalrom, 'Peter_triceps_fatigue')
-pfn.plot_fatigue(triceps_med_freq_rom, 'Peter_triceps_fatigue_rom')
+# pfn.plot_fatigue(triceps_med_freq_normalrom, 'Peter_triceps_fatigue')
+# pfn.plot_fatigue(triceps_med_freq_rom, 'Peter_triceps_fatigue_rom')
 
-pfn.plot_fatigue(chest_med_freq_normalrom, 'Peter_chest_fatigue')
-pfn.plot_fatigue(chest_med_freq_rom, 'Peter_chest_fatigue_rom')
+# pfn.plot_fatigue(chest_med_freq_normalrom, 'Peter_chest_fatigue')
+# pfn.plot_fatigue(chest_med_freq_rom, 'Peter_chest_fatigue_rom')
+
+# enveb= pfn.data_to_envelope(Noahb[4])
+# envet= pfn.data_to_envelope(Noaht[4])
+
+
+# plt.figure()
+# plt.plot(Noahm[4]/1000, enveb, color = '#21B2DE', label='Chest')
+# plt.plot(Noahm[4]/1000, envet, color = '#DE4D21', label= 'Triceps')
+# plt.xlabel('Time / s')
+# plt.ylabel('Amplitude / µV')
+# plt.legend(loc= 'upper right')
+# plt.savefig('Noah_Comparison_bigROM.eps')
+
+# plt.show()
+
+#pfn.plot_comparison(Noahb, Noaht, Noahm, 'Noah_Comparison')
