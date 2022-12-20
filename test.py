@@ -2,7 +2,7 @@ for i in range(15):
     print(i)
 
 import Projectfunctions as pfn
-
+import numpy as np
 
 # envelope_brust = []
 # envelope_trizeps = []
@@ -14,3 +14,5 @@ import Projectfunctions as pfn
 #     envelope_brust.append(brust)
     
 # print(envelope_brust)
+a = np.array([1,2,3,4,5])
+print(a[-3:])

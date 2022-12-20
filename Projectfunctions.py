@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import Lab3Functions as l3f
 import seaborn as sns
 import Projectfunctions as pfn
+import statistics as st
 
 def txt_to_df(txt):
     df =  pd.read_csv("./Daten/"+txt, sep = '\t', names = ['brust', 'trizeps', 'millis'])
@@ -54,10 +55,10 @@ def get_data(Name):
 
     return envelope_brust, envelope_trizeps, millis
 
-def integral(array, start, end):
+def areasum(array, start, end):
     #finding area under the curve
-    integral = sum(array[start:end])
-    return integral
+    sum = np.sum(array[start:end])
+    return sum
 
 def find_relation(DataB, DataT, Normal_s, Normal_e, Narrow_s, Narrow_e, Wide_s, Wide_e):
     b_envelope = []
@@ -71,24 +72,24 @@ def find_relation(DataB, DataT, Normal_s, Normal_e, Narrow_s, Narrow_e, Wide_s, 
     area_chest_normal = []
     area_triceps_normal = []
     for i in range(3):
-        chestNormal = integral(b_envelope[0], Normal_s[i], Normal_e[i])
-        tricepsNormal = integral(t_envelope[0], Normal_s[i], Normal_e[i])
+        chestNormal = areasum(b_envelope[0], Normal_s[i], Normal_e[i])
+        tricepsNormal = areasum(t_envelope[0], Normal_s[i], Normal_e[i])
         area_chest_normal.append(chestNormal)
         area_triceps_normal.append(tricepsNormal)
 
     area_chest_narrow = []
     area_triceps_narrow = []
     for i in range(3):
-        chest = integral(b_envelope[1], Narrow_s[i], Narrow_e[i])
-        triceps = integral(t_envelope[1], Narrow_s[i], Narrow_e[i])
+        chest = areasum(b_envelope[1], Narrow_s[i], Narrow_e[i])
+        triceps = areasum(t_envelope[1], Narrow_s[i], Narrow_e[i])
         area_chest_narrow.append(chest)
         area_triceps_narrow.append(triceps)
 
     area_chest_wide = []
     area_triceps_wide = []
     for i in range(3):
-        chest = integral(b_envelope[2], Wide_s[i], Wide_e[i])
-        triceps = integral(t_envelope[2], Wide_s[i], Wide_e[i])
+        chest = areasum(b_envelope[2], Wide_s[i], Wide_e[i])
+        triceps = areasum(t_envelope[2], Wide_s[i], Wide_e[i])
         area_chest_wide.append(chest)
         area_triceps_wide.append(triceps)
 
@@ -129,9 +130,6 @@ def get_mean_ampliude(Datab, Datat):
     return envelope_chest, envelope_triceps   
 
 def barplot(envelope_chest, envelope_triceps, Name, first, second, third):
-    # j = {x: [random.choice(["ASB", "Violence", "Theft", "Public Order", "Drugs"]
-    #                    ) for j in range(300)] for x in s}
-    # df = pd.DataFrame(j)
     chest_activation = envelope_chest
     triceps_activation = envelope_triceps
     index = np.arange(5)
@@ -143,6 +141,7 @@ def barplot(envelope_chest, envelope_triceps, Name, first, second, third):
 
     ax.bar(index+bar_width, triceps_activation, bar_width, label="triceps activation", color = '#DE4D21', edgecolor = '#7A2A12')
     max = np.max(triceps_activation)
+    #yticks set to max value
     plt.yticks(np.arange(0, max+25, 10)) 
     ax.set_xlabel('Excersice')
     ax.set_ylabel('Mean of Amplitude / mV')
@@ -245,7 +244,7 @@ def plot_fatigue(freq_median_triceps, Name):
     sns.lmplot(x='x',y='y', data=df_t, order=2)
 
     plt.xlabel('Samples')
-    plt.ylabel('Frequenzy / Hz')
+    plt.ylabel('Frequency / Hz')
     plt.savefig('Grafiken/'+ Name + '.png')
     plt.savefig('Grafiken/'+ Name + '.eps')
     plt.show()
@@ -260,8 +259,36 @@ def plot_comparison(chest, triceps, time, name):
         plt.plot(time[i]/1000, Chest, color = '#21B2DE', label='Chest')
         plt.plot(time[i]/1000, Triceps, color = '#DE4D21', label= 'Triceps')
         plt.xlabel('Time / s')
-        plt.ylabel('Amplitude / µV')
+        plt.ylabel('Amplitude / mV')
         plt.legend(loc= 'upper right')
         plt.savefig('Grafiken/'+ name + '.eps')
 
         plt.show()
+
+def median_for_statistic(Chest_medianP, Trizeps_medianP, Chest_medianN, Trizeps_medianN,Chest_medianJ, Trizeps_medianJ):
+
+    c_beginP = st.mean(Chest_medianP[0:3])
+    c_endP = st.mean(Chest_medianP[-3:])
+    t_beginP = st.mean(Trizeps_medianP[0:3])
+    t_endP = st.mean(Trizeps_medianP[-3:])
+
+    c_beginN = st.mean(Chest_medianN[0:3])
+    c_endN = st.mean(Chest_medianN[-3:])
+    t_beginN = st.mean(Trizeps_medianN[0:3])
+    t_endN = st.mean(Trizeps_medianN[-3:])
+
+    c_beginJ = st.mean(Chest_medianJ[0:3])
+    c_endJ = st.mean(Chest_medianJ[-3:])
+    t_beginJ = st.mean(Trizeps_medianJ[0:3])
+    t_endJ = st.mean(Trizeps_medianJ[-3:])
+
+    begin_chest = st.mean([c_beginP, c_beginN, c_beginJ])
+    begin_triceps = st.mean([t_beginP, t_beginN, t_beginJ])
+    end_chest = st.mean([c_endP, c_endN, c_endJ])
+    end_triceps = st.mean([t_endP, t_endN, t_endJ])
+
+    chest_relation = (begin_chest/end_chest)
+    triceps_relation = (begin_triceps/end_triceps)
+
+    return begin_chest, begin_triceps, end_chest, end_triceps, chest_relation, triceps_relation
+
